@@ -54,6 +54,7 @@
         <Compile Include="Mathf.cs" />
         <Compile Include="MultiplyFunction.cs" />
         <Compile Include="NaturalExponentialFunction.cs" />
+        <Compile Include="NonLinearSolver.cs" />
         <Compile Include="PowerFunction.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />

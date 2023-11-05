@@ -29,12 +29,18 @@ public static class NonLinearSolver
             if (value * fA < 0)
             {
                 b = c;
+                continue;
             }
+            
+            var fB = function.Evaluate(b);
 
-            else
+            if (value * fB < 0)
             {
                 a = c;
+                continue;
             }
+
+            return c;
         }
     }
 }

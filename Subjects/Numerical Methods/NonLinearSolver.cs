@@ -82,4 +82,27 @@ public static class NonLinearSolver
             return c;
         }
     }
+
+    public static double NewtonRaphson(IFunction function, double a, double b, double maxError)
+    {
+        if (function.Evaluate(a) * function.Evaluate(b) > 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(a), nameof(b), $"Newton Raphson method won't be applied in range [{a},{b}].");
+        }
+        
+        var derivative = function.Derivate();
+        var c = a;
+        var i = 0;
+
+        while (true)
+        {
+            var delta = function.Evaluate(c) / derivative.Evaluate(c); 
+            c -= delta;
+            Console.WriteLine($"[{i}]: {c}");
+
+            if (Math.Abs(delta) < maxError) return c;
+
+            i += 1;
+        }
+    }
 }

@@ -14,7 +14,8 @@ namespace Numerical_Methods
             //var f = new LinearFunction(2, -2);
             //var approximateX = NonLinearSolver.Bisection(f, 1.5, 3.1, 1E-16);
             //var approximateX = NonLinearSolver.FalsePosition(f, 1.5, 3.1, 1E-16);
-            var approximateX = NonLinearSolver.NewtonRaphson(f, 1.5, 3.1, 1E-16);
+            //var approximateX = NonLinearSolver.NewtonRaphson(f, 1.5, 3.1, 1E-16);
+            var approximateX = NonLinearSolver.Secant(f, 1.5, 3.1, 1E-16);
             
             Console.WriteLine($"[f(x) = {f}] at [x = {approximateX}, y = {f.Evaluate(approximateX)}]");
             

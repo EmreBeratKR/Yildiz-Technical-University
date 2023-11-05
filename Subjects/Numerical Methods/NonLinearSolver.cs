@@ -105,4 +105,29 @@ public static class NonLinearSolver
             i += 1;
         }
     }
+
+    public static double Secant(IFunction function, double a, double b, double maxError)
+    {
+        if (function.Evaluate(a) * function.Evaluate(b) > 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(a), nameof(b), $"Secant method won't be applied in range [{a},{b}].");
+        }
+        
+        var previousC = a;
+        var c = b;
+        var i = 0;
+
+        while (true)
+        {
+            var fC = function.Evaluate(c);
+            var delta = fC * (previousC - c) / (function.Evaluate(previousC) - fC); 
+            previousC = c;
+            c -= delta;
+            Console.WriteLine($"[{i}]: {c}");
+
+            if (Math.Abs(delta) < maxError) return c;
+
+            i += 1;
+        }
+    }
 }

@@ -1,0 +1,37 @@
+﻿@model Student
+
+@{
+    ViewData["Title"] = "Edit Student";
+
+    var student = Model;
+}
+
+
+<h1>Edit Student</h1>
+
+<div class="row">
+    <div class="col-md-4">
+
+        <form asp-controller="Students" asp-action="Edit" method="post">
+
+            <div class="form-group" style="margin-bottom: 10px">
+                <input type="text" class="form-control" placeholder="First Name" asp-for="FirstName" />
+            </div>
+
+            <div class="form-group" style="margin-bottom: 10px">
+                <input type="text" class="form-control" placeholder="Last Name" asp-for="LastName" />
+            </div>
+
+            <div class="form-group">
+                <input type="email" class="form-control" placeholder="Email" asp-for="Email" />
+            </div>
+
+            <div class="text-danger" asp-validation-summary="All"></div>
+            <a asp-controller="Students" asp-action="Index" class="btn btn-primary">Back</a>
+
+            <button class="btn btn-success mt-2 float-end">Apply</button>
+
+        </form>
+
+    </div>
+</div>

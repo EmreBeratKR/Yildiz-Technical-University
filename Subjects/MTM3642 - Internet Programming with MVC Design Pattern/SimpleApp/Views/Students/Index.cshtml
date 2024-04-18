@@ -1,0 +1,66 @@
+﻿@model IReadOnlyList<Student>
+
+@{
+    ViewData["Title"] = "Students";
+
+    var students = Model;
+    var hasNoStudents = students.Count <= 0;
+    var properties = typeof(Student).GetProperties();
+}
+
+<center>
+    <div style="display: inline-block; width: 90%;">
+        <h1 style="margin-bottom: 20px"><i class="fa-solid fa-graduation-cap"></i> Students</h1>
+
+        <a asp-controller="Students" asp-action="Create" class="btn btn-success">
+            <i class="fa-solid fa-square-plus"></i> Create New
+        </a>
+        <a asp-controller="Students" asp-action="DeleteAll" class="btn btn-danger">
+            <i class="fa-solid fa-trash-can"></i> Delete All
+        </a>
+
+        <div style="overflow-x: auto; max-width: 100%; margin-top: 20px;">
+            <table class="table table-sm" style="width: 100%">
+                <tr>
+                    @foreach (var property in properties)
+                    {
+                        <th>@property.Name.PascalCaseToDisplayString()</th>
+                    }
+
+                    <th>Operations</th>
+                </tr>
+
+                @if (!hasNoStudents)
+                {
+                    foreach (var student in students)
+                    {
+                        <tr>
+                            @foreach (var property in properties)
+                            {
+                                <td>@(property.GetValue(student) ?? "-")</td>
+                            }
+
+                            <td>
+                                <a asp-controller="Students" asp-action="Edit" asp-route-id="@student.Id" class="btn btn-sm btn-primary">
+                                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                                </a>
+                                <a asp-controller="Students" asp-action="Delete" asp-route-id="@student.Id" class="btn btn-sm btn-danger">
+                                    <i class="fa-solid fa-trash-can"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </table>
+        </div>
+        @if (hasNoStudents)
+        {
+            <div style="display: block;">
+                <b style="color: #666; font-style: italic; opacity: 0.7; text-decoration: none;">
+                    No Students!
+                </b>
+            </div>
+        }
+    </div>
+</center>

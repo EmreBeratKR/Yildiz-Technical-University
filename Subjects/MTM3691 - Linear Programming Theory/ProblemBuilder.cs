@@ -35,11 +35,63 @@ public class ProblemBuilder
 
     public ProblemBuilder GetTableau()
     {
-        var slackVariableCount = m_Constraints.Count(e => e.Item1 == "<=");
-        var surplusVariableCount = m_Constraints.Count(e => e.Item1 == ">=");
+        var slackCount = m_Constraints.Count(e => e.Item1 == "<=");
+        var surplusCount = m_Constraints.Count(e => e.Item1 == ">=");
+        var columnCount = m_ZCoefficients.Length + slackCount + 2 * surplusCount;
+        var rowCount = 1 + m_Constraints.Count;
+        var tableau = new List<double[]>();
+
+        for (var i = 0; i < rowCount; i++)
+        {
+            tableau.Add(new double[columnCount]);
+        }
+
+        var extraVariableCount = 0;
+        var rowIndex = 1;
         
-        Console.WriteLine(slackVariableCount);
-        Console.WriteLine(surplusVariableCount);
+        foreach (var (operation, coefficients) in m_Constraints)
+        {
+            if (operation == "<=")
+            {
+                for (var i = 0; i < coefficients.Length - 1; i++)
+                {
+                    tableau[rowIndex][i] = coefficients[i];
+                }
+                
+                tableau[rowIndex][coefficients.Length + extraVariableCount - 1] = 1;
+                tableau[rowIndex][^1] = coefficients[^1];
+                extraVariableCount += 1;
+            }
+            
+            else if (operation == ">=")
+            {
+                for (var i = 0; i < coefficients.Length - 1; i++)
+                {
+                    tableau[rowIndex][i] = coefficients[i];
+                }
+                
+                tableau[rowIndex][coefficients.Length + extraVariableCount - 1] = -1;
+                tableau[rowIndex][coefficients.Length + extraVariableCount] = 1;
+                tableau[rowIndex][^1] = coefficients[^1];
+                extraVariableCount += 2;
+            }
+
+            rowIndex += 1;
+        }
+        
+        var outp = "";
+        
+        foreach (var row in tableau)
+        {
+            foreach (var value in row)
+            {
+                outp += value + ",";
+            }
+
+            outp += "\n";
+        }
+        
+        Console.WriteLine(outp);
         
         return this;
     }
